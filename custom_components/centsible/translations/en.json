@@ -10,7 +10,7 @@
         },
         "data_description": {
           "pairing_code": "The code under the invite QR code (like ABCD-EFGH), or the whole actualbridge://pair link the QR code holds.",
-          "bridge_url": "Your bridge's public address, e.g. https://budget-api.example.com. Not needed when you paste the link."
+          "bridge_url": "Your bridge's public address, like budget-api.example.com. Not needed when you paste the link."
         },
         "sections": {
           "cloudflare_access": {
@@ -39,7 +39,7 @@
         },
         "data_description": {
           "pairing_code": "The code under the invite QR code (like ABCD-EFGH), or the whole actualbridge://pair link the QR code holds.",
-          "bridge_url": "Your bridge's public address, e.g. https://budget-api.example.com. Not needed when you paste the link."
+          "bridge_url": "Your bridge's public address, like budget-api.example.com. Not needed when you paste the link."
         },
         "sections": {
           "cloudflare_access": {
