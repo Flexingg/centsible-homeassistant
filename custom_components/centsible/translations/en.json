@@ -1,0 +1,120 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Pair with your Centsible bridge",
+        "description": "In the Centsible app, open More → Settings → Household, add a member for Home Assistant (a Viewer is enough), and tap Invite.",
+        "data": {
+          "pairing_code": "Pairing code or link",
+          "bridge_url": "Bridge address"
+        },
+        "data_description": {
+          "pairing_code": "The code under the invite QR code (like ABCD-EFGH), or the whole actualbridge://pair link the QR code holds.",
+          "bridge_url": "Your bridge's public address, e.g. https://budget-api.example.com. Not needed when you paste the link."
+        },
+        "sections": {
+          "cloudflare_access": {
+            "name": "Cloudflare Access",
+            "description": "Only if the bridge is behind Cloudflare Access and you typed the code instead of pasting the link (the link carries these).",
+            "data": {
+              "cf_client_id": "Service token client ID",
+              "cf_client_secret": "Service token client secret"
+            }
+          }
+        }
+      },
+      "budget": {
+        "title": "Choose a budget",
+        "description": "This member can open more than one budget. Add the integration again for each budget you want.",
+        "data": {
+          "budget_id": "Budget"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Pair again",
+        "description": "The bridge no longer accepts Home Assistant's sign-in for {budget} (the device was removed, or it wasn't used for 90 days). Make a new invite in the app and enter it here.",
+        "data": {
+          "pairing_code": "Pairing code or link",
+          "bridge_url": "Bridge address"
+        },
+        "data_description": {
+          "pairing_code": "The code under the invite QR code (like ABCD-EFGH), or the whole actualbridge://pair link the QR code holds.",
+          "bridge_url": "Your bridge's public address, e.g. https://budget-api.example.com. Not needed when you paste the link."
+        },
+        "sections": {
+          "cloudflare_access": {
+            "name": "Cloudflare Access",
+            "description": "Only if the bridge is behind Cloudflare Access and you typed the code instead of pasting the link (the link carries these).",
+            "data": {
+              "cf_client_id": "Service token client ID",
+              "cf_client_secret": "Service token client secret"
+            }
+          }
+        }
+      }
+    },
+    "error": {
+      "invalid_code": "That pairing code is wrong, used, or expired. Codes work once, for 10 minutes.",
+      "invalid_link": "That pairing link has no code in it.",
+      "url_required": "Enter the bridge address, or paste the whole pairing link.",
+      "invalid_url": "That doesn't look like a web address.",
+      "rate_limited": "Too many wrong codes from here. Wait 10 minutes and try again.",
+      "cannot_connect": "Can't reach the bridge. Check the address, and the Cloudflare Access service token if you use one.",
+      "budget_not_shared": "That member can't open this budget any more.",
+      "unknown": "Unexpected error"
+    },
+    "abort": {
+      "already_configured": "This budget is already set up.",
+      "no_budgets": "This member can't open any budgets yet.",
+      "reauth_successful": "Paired again."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Update every",
+          "currency": "Currency"
+        },
+        "data_description": {
+          "scan_interval": "How often to ask the bridge for new numbers.",
+          "currency": "Actual doesn't store a currency; this is the unit on money sensors (e.g. USD)."
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "net_worth": {
+        "name": "Net worth"
+      },
+      "to_budget": {
+        "name": "To budget"
+      },
+      "budgeted": {
+        "name": "Budgeted this month"
+      },
+      "spent": {
+        "name": "Spent this month"
+      },
+      "income": {
+        "name": "Income this month"
+      },
+      "available": {
+        "name": "Available in envelopes"
+      },
+      "overspent_categories": {
+        "name": "Overspent categories"
+      },
+      "to_review": {
+        "name": "Transactions to review"
+      },
+      "account": {
+        "name": "{name} balance"
+      },
+      "category": {
+        "name": "{name} available"
+      }
+    }
+  }
+}

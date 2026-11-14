@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "17 6 * * 1"
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install -r requirements_test.txt ruff
+      - run: ruff check .
+      - run: pytest -q
+
+  e2e:
+    # Pairs with a real bridge and Actual server built from the Centsible repo.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: Flexingg/Centsible
+          path: centsible
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: centsible/bridge/package-lock.json
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: npm ci
+        working-directory: centsible/bridge
+      - run: pip install -r requirements_test.txt
+      - name: Start bridge
+        working-directory: centsible/bridge
+        run: |
+          npx tsx test/support/e2e-server.ts 8787 > ../../e2e.json 2> ../../e2e.log &
+          for i in $(seq 1 120); do [ -s ../../e2e.json ] && break; sleep 1; done
+          cat ../../e2e.json || (cat ../../e2e.log; exit 1)
+      - run: |
+          export CENTSIBLE_E2E_PAIRING_URI=$(python -c "import json; print(json.load(open('e2e.json'))['pairingUri'])")
+          pytest -q -s tests/test_e2e.py
+
+  hassfest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: home-assistant/actions/hassfest@master
+
+  hacs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: hacs/action@main
+        with:
+          category: integration
